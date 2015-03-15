@@ -7,19 +7,67 @@ output:
 
 
 ## Loading and preprocessing the data
-
-
-
+```{r}
+unzip("activity.zip")
+data <- read.csv("Activity.csv")
+```
 ## What is mean total number of steps taken per day?
+```{r}
+sum.byDays <- aggregate(data$steps, list(data$date), sum)
+hist(sum.byDays$x, xlab="", col="blue", main = "Number of steps per day")
+```
 
+###The mean is:
+```{r}
+mean(sum.byDays$x, na.rm=T)
+```
+###The median is:
+```{r}
+median(sum.byDays$x, na.rm=T)
+```
 
 
 ## What is the average daily activity pattern?
+```{r}
+avg.byInts <-aggregate(steps ~ interval, data = data, mean)
+plot(avg.byInts, type = "l", main = "Daily activity pattern", col="red",
+     xlab="Interval", ylab="No. of steps")
+```
 
-
+###The maximum average number of steps per 5-minute interval:
+```{r}
+max(avg.byInts$steps)
+```
 
 ## Imputing missing values
+```{r}
+ints.Avg <- data.frame(round(avg.byInts$steps), row.names = avg.byInts$interval)
+names(ints.Avg) <- c("steps")
 
+data.Imp <- data
+i <- 1
+while (i <= nrow(data.Imp))
+{
+        if (is.na(data.Imp$steps[i]))
+        {
+                data.Imp$steps[i] <- ints.Avg[as.character(data.Imp$interval[i]), "steps"]
+        }
+        i <- i + 1
+}
+
+sum.byDays <- aggregate(data.Imp$steps, list(data.Imp$date), sum)
+hist(sum.byDays$x, xlab="", col="green", main = "Number of steps per day")
+```
+
+### The mean is:
+```{r}
+mean(sum.byDays$x, na.rm=T)
+```
+
+### The median is:
+```{r}
+median(sum.byDays$x, na.rm=T)
+```
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
