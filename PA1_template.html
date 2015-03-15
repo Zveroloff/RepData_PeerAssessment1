@@ -256,6 +256,15 @@ plot(avg.byInts, type = &quot;l&quot;, main = &quot;Daily activity pattern&quot;
 
 <h2>Imputing missing values</h2>
 
+<p>To replace the missing values, we&#39;re going to use rounded mean values for these intervals.
+So, the strategy is:</p>
+
+<ol>
+<li><p>Take the mean values (<em>avg.byInts</em>)</p></li>
+<li><p>Round them and pack to a data.frame w/rows indexed by interval id.</p></li>
+<li><p>Substitute all NAs in original <em>data</em> with corresponding values.</p></li>
+</ol>
+
 <pre><code class="r">ints.Avg &lt;- data.frame(round(avg.byInts$steps), row.names = avg.byInts$interval)
 names(ints.Avg) &lt;- c(&quot;steps&quot;)
 

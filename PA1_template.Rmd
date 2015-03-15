@@ -40,6 +40,14 @@ max(avg.byInts$steps)
 ```
 
 ## Imputing missing values
+To replace the missing values, we're going to use rounded mean values for these intervals.
+So, the strategy is:
+
+1. Take the mean values (_avg.byInts_)
+
+2. Round them and pack to a data.frame w/rows indexed by interval id.
+
+3. Substitute all NAs in original _data_ with corresponding values.
 ```{r}
 ints.Avg <- data.frame(round(avg.byInts$steps), row.names = avg.byInts$interval)
 names(ints.Avg) <- c("steps")
