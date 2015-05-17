@@ -1,30 +1,28 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
-
+# Reproducible Research: Peer Assessment 1
 
 ## Loading and preprocessing the data
 
 ```r
 unzip("activity.zip")
 data <- read.csv("Activity.csv")
+library(lattice)
 ```
+
+
 ## What is mean total number of steps taken per day?
 
 ```r
 sum.byDays <- aggregate(data$steps, list(data$date), sum)
-hist(sum.byDays$x, xlab="", col="blue", main = "Number of steps per day")
+names(sum.byDays) <- c("day", "steps")
+histogram( ~ steps, data = sum.byDays, type="density", breaks = 5)
 ```
 
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-2-1.png) 
 
 - The mean is:
 
 ```r
-mean(sum.byDays$x, na.rm=T)
+mean(sum.byDays$steps, na.rm=T)
 ```
 
 ```
@@ -33,7 +31,7 @@ mean(sum.byDays$x, na.rm=T)
 - The median is:
 
 ```r
-median(sum.byDays$x, na.rm=T)
+median(sum.byDays$steps, na.rm=T)
 ```
 
 ```
@@ -44,12 +42,13 @@ median(sum.byDays$x, na.rm=T)
 ## What is the average daily activity pattern?
 
 ```r
-avg.byInts <-aggregate(steps ~ interval, data = data, mean)
-plot(avg.byInts, type = "l", main = "Daily activity pattern", col="red",
-     xlab="Interval", ylab="No. of steps")
+avg.byInts <- aggregate(steps ~ interval, data = data, mean)
+xyplot(steps ~ interval, data = avg.byInts, type="l",
+       main = "Daily activity pattern", xlab="Interval", ylab="No. of steps",
+       col="red")
 ```
 
-![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
 
 - The maximum average number of steps per 5-minute interval:
 
@@ -87,15 +86,17 @@ while (i <= nrow(data.Imp))
 }
 
 sum.byDays <- aggregate(data.Imp$steps, list(data.Imp$date), sum)
-hist(sum.byDays$x, xlab="", col="green", main = "Number of steps per day")
+names(sum.byDays) <- c("day", "steps")
+histogram( ~ steps, data = sum.byDays, type="density", breaks = 5,
+           xlab="", col="green", main = "Number of steps per day")
 ```
 
-![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-7-1.png) 
 
 - The mean is:
 
 ```r
-mean(sum.byDays$x, na.rm=T)
+mean(sum.byDays$steps, na.rm=T)
 ```
 
 ```
@@ -105,7 +106,7 @@ mean(sum.byDays$x, na.rm=T)
 - The median is:
 
 ```r
-median(sum.byDays$x, na.rm=T)
+median(sum.byDays$steps, na.rm=T)
 ```
 
 ```
@@ -149,4 +150,4 @@ plot(avg.byIntsWeekend, type = "l", main = "Weekends activity pattern", col="red
      xlab="Interval", ylab="No. of steps")
 ```
 
-![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-10-1.png) 
