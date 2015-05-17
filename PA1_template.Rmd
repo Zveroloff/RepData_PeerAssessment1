@@ -88,6 +88,7 @@ round(mean(sum.byDays$steps, na.rm=T), 2)
 median(sum.byDays$steps, na.rm=T)
 ```
 
+The values changed slightly. So in this case missing values are not really make sense.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 ```{r}

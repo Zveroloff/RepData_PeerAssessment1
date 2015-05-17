@@ -119,6 +119,7 @@ median(sum.byDays$steps, na.rm=T)
 ## [1] 10762
 ```
 
+The values changed slightly. So in this case missing values are not really make sense.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
