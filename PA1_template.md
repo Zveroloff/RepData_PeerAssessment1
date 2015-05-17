@@ -1,4 +1,9 @@
-# Reproducible Research: Peer Assessment 1
+---
+title: "Reproducible Research: Peer Assessment 1"
+output: 
+  html_document:
+    keep_md: true
+---
 
 ## Loading and preprocessing the data
 
@@ -17,7 +22,7 @@ names(sum.byDays) <- c("day", "steps")
 histogram( ~ steps, data = sum.byDays, type="density", breaks = 5)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-2-1.png) 
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png) 
 
 - The mean is:
 
@@ -48,7 +53,7 @@ xyplot(steps ~ interval, data = avg.byInts, type="l",
        col="red")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png) 
 
 - The maximum average number of steps per 5-minute interval:
 
@@ -91,7 +96,7 @@ histogram( ~ steps, data = sum.byDays, type="density", breaks = 5,
            xlab="", col="green", main = "Number of steps per day")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-7-1.png) 
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png) 
 
 - The mean is:
 
@@ -139,14 +144,11 @@ while (i <= len) {
 }
 days <- as.factor(days)
 
-data <- cbind(data, days)
-
-
-xyplot(steps ~ interval | days, data = data, panel = function(x, y){
-    t <- cbind(x,y)
-    ttt <- aggregate(y ~ x, data = t, mean)
-    panel.xyplot(ttt$x, ttt$y, type="l")
-}, layout = c(1, 2))
+xyplot(steps ~ interval | days, data = data, panel = function(x, y) {
+    tmp.data <- cbind(x,y)
+    tmp.data.mean <- aggregate(y ~ x, data = tmp.data, mean)
+    panel.xyplot(tmp.data.mean$x, tmp.data.mean$y, type="l")
+}, xlab="Interval", ylab="No. of steps", layout = c(1, 2))
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-10-1.png) 
+![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10-1.png) 

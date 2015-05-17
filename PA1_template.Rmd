@@ -102,19 +102,9 @@ while (i <= len) {
 }
 days <- as.factor(days)
 
-data <- cbind(data, days)
-avg.byIntsWeekday <- aggregate(steps ~ interval, data = data, mean, subset = days == "weekday")
-avg.byIntsWeekend <- aggregate(steps ~ interval, data = data, mean, subset = days == "weekend")
-
-par(mfrow = c(2,1))
-plot(avg.byIntsWeekday, type = "l", main = "Weekdays activity pattern", col="green",
-     xlab="Interval", ylab="No. of steps")
-plot(avg.byIntsWeekend, type = "l", main = "Weekends activity pattern", col="red",
-     xlab="Interval", ylab="No. of steps")
-
 xyplot(steps ~ interval | days, data = data, panel = function(x, y) {
     tmp.data <- cbind(x,y)
     tmp.data.mean <- aggregate(y ~ x, data = tmp.data, mean)
     panel.xyplot(tmp.data.mean$x, tmp.data.mean$y, type="l")
-}, layout = c(1, 2))
+}, xlab="Interval", ylab="No. of steps", layout = c(1, 2))
 ```
