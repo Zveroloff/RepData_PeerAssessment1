@@ -140,14 +140,13 @@ while (i <= len) {
 days <- as.factor(days)
 
 data <- cbind(data, days)
-avg.byIntsWeekday <- aggregate(steps ~ interval, data = data, mean, subset = days == "weekday")
-avg.byIntsWeekend <- aggregate(steps ~ interval, data = data, mean, subset = days == "weekend")
 
-par(mfrow = c(2,1))
-plot(avg.byIntsWeekday, type = "l", main = "Weekdays activity pattern", col="green",
-     xlab="Interval", ylab="No. of steps")
-plot(avg.byIntsWeekend, type = "l", main = "Weekends activity pattern", col="red",
-     xlab="Interval", ylab="No. of steps")
+
+xyplot(steps ~ interval | days, data = data, panel = function(x, y){
+    t <- cbind(x,y)
+    ttt <- aggregate(y ~ x, data = t, mean)
+    panel.xyplot(ttt$x, ttt$y, type="l")
+}, layout = c(1, 2))
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-10-1.png) 

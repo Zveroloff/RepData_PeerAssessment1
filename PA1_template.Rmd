@@ -112,5 +112,9 @@ plot(avg.byIntsWeekday, type = "l", main = "Weekdays activity pattern", col="gre
 plot(avg.byIntsWeekend, type = "l", main = "Weekends activity pattern", col="red",
      xlab="Interval", ylab="No. of steps")
 
-
+xyplot(steps ~ interval | days, data = data, panel = function(x, y) {
+    tmp.data <- cbind(x,y)
+    tmp.data.mean <- aggregate(y ~ x, data = tmp.data, mean)
+    panel.xyplot(tmp.data.mean$x, tmp.data.mean$y, type="l")
+}, layout = c(1, 2))
 ```
