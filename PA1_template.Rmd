@@ -10,6 +10,7 @@ output:
 unzip("activity.zip")
 data <- read.csv("Activity.csv")
 library(lattice)
+options(scipen = 999)
 ```
 
 
@@ -17,12 +18,13 @@ library(lattice)
 ```{r}
 sum.byDays <- aggregate(data$steps, list(data$date), sum)
 names(sum.byDays) <- c("day", "steps")
-histogram( ~ steps, data = sum.byDays, type="density", breaks = 5)
+histogram( ~ steps, data = sum.byDays, type="density", breaks = 5,
+           xlab="", col="blue", main = "Number of steps per day")
 ```
 
 - The mean is:
 ```{r}
-mean(sum.byDays$steps, na.rm=T)
+round(mean(sum.byDays$steps, na.rm=T),2)
 ```
 - The median is:
 ```{r}
@@ -44,7 +46,7 @@ steps.avg.max <- max(avg.byInts$steps)
 max.interval <- avg.byInts[avg.byInts$steps == steps.avg.max, "interval"]
 ```
 
-The average maximum number of steps is `r steps.avg.max`, and the interval id that contains this value is `r max.interval`.
+The average maximum number of steps is `r round(steps.avg.max, 2)`, and the interval id that contains this value is `r max.interval`.
 
 ## Imputing missing values
 To replace the missing values, we're going to use rounded mean values for these intervals.
@@ -78,7 +80,7 @@ histogram( ~ steps, data = sum.byDays, type="density", breaks = 5,
 
 - The mean is:
 ```{r}
-mean(sum.byDays$steps, na.rm=T)
+round(mean(sum.byDays$steps, na.rm=T), 2)
 ```
 
 - The median is:
@@ -106,8 +108,9 @@ while (i <= len) {
 days <- as.factor(days)
 
 xyplot(steps ~ interval | days, data = data, panel = function(x, y) {
+  ## using custom panel fuction to aggregate the data (calculate mean values)
     tmp.data <- cbind(x,y)
     tmp.data.mean <- aggregate(y ~ x, data = tmp.data, mean)
     panel.xyplot(tmp.data.mean$x, tmp.data.mean$y, type="l")
-}, xlab="Interval", ylab="No. of steps", layout = c(1, 2))
+}, xlab="Interval", ylab="No. of steps", ylim=c(-10, 300),  layout=c(1, 2))
 ```

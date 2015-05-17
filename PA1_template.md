@@ -1,9 +1,4 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 ## Loading and preprocessing the data
 
@@ -11,6 +6,7 @@ output:
 unzip("activity.zip")
 data <- read.csv("Activity.csv")
 library(lattice)
+options(scipen = 999)
 ```
 
 
@@ -19,15 +15,16 @@ library(lattice)
 ```r
 sum.byDays <- aggregate(data$steps, list(data$date), sum)
 names(sum.byDays) <- c("day", "steps")
-histogram( ~ steps, data = sum.byDays, type="density", breaks = 5)
+histogram( ~ steps, data = sum.byDays, type="density", breaks = 5,
+           xlab="", col="blue", main = "Number of steps per day")
 ```
 
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-2-1.png) 
 
 - The mean is:
 
 ```r
-mean(sum.byDays$steps, na.rm=T)
+round(mean(sum.byDays$steps, na.rm=T),2)
 ```
 
 ```
@@ -53,7 +50,7 @@ xyplot(steps ~ interval, data = avg.byInts, type="l",
        col="red")
 ```
 
-![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
 
 - The maximum average number of steps per 5-minute interval:
 
@@ -62,7 +59,7 @@ steps.avg.max <- max(avg.byInts$steps)
 max.interval <- avg.byInts[avg.byInts$steps == steps.avg.max, "interval"]
 ```
 
-The average maximum number of steps is 206.1698113, and the interval id that contains this value is 835.
+The average maximum number of steps is 206.17, and the interval id that contains this value is 835.
 
 ## Imputing missing values
 To replace the missing values, we're going to use rounded mean values for these intervals.
@@ -95,12 +92,12 @@ histogram( ~ steps, data = sum.byDays, type="density", breaks = 5,
            xlab="", col="green", main = "Number of steps per day")
 ```
 
-![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-7-1.png) 
 
 - The mean is:
 
 ```r
-mean(sum.byDays$steps, na.rm=T)
+round(mean(sum.byDays$steps, na.rm=T), 2)
 ```
 
 ```
@@ -147,7 +144,7 @@ xyplot(steps ~ interval | days, data = data, panel = function(x, y) {
     tmp.data <- cbind(x,y)
     tmp.data.mean <- aggregate(y ~ x, data = tmp.data, mean)
     panel.xyplot(tmp.data.mean$x, tmp.data.mean$y, type="l")
-}, xlab="Interval", ylab="No. of steps", layout = c(1, 2))
+}, xlab="Interval", ylab="No. of steps", ylim=c(-10, 300),  layout=c(1, 2))
 ```
 
-![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-10-1.png) 
