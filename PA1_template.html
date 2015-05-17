@@ -251,11 +251,11 @@ xyplot(steps ~ interval, data = avg.byInts, type=&quot;l&quot;,
 <li>The maximum average number of steps per 5-minute interval:</li>
 </ul>
 
-<pre><code class="r">max(avg.byInts$steps)
+<pre><code class="r">steps.avg.max &lt;- max(avg.byInts$steps)
+max.interval &lt;- avg.byInts[avg.byInts$steps == steps.avg.max, &quot;interval&quot;]
 </code></pre>
 
-<pre><code>## [1] 206.1698
-</code></pre>
+<p>The average maximum number of steps is 206.1698113, and the interval id that contains this value is 835.</p>
 
 <h2>Imputing missing values</h2>
 

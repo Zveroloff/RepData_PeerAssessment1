@@ -58,12 +58,11 @@ xyplot(steps ~ interval, data = avg.byInts, type="l",
 - The maximum average number of steps per 5-minute interval:
 
 ```r
-max(avg.byInts$steps)
+steps.avg.max <- max(avg.byInts$steps)
+max.interval <- avg.byInts[avg.byInts$steps == steps.avg.max, "interval"]
 ```
 
-```
-## [1] 206.1698
-```
+The average maximum number of steps is 206.1698113, and the interval id that contains this value is 835.
 
 ## Imputing missing values
 To replace the missing values, we're going to use rounded mean values for these intervals.
